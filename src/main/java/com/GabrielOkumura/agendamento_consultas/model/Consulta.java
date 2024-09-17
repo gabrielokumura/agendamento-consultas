@@ -11,7 +11,6 @@ public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
     private String descricao;

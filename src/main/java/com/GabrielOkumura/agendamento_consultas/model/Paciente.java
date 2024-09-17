@@ -1,5 +1,6 @@
 package com.GabrielOkumura.agendamento_consultas.model;
 
+import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroPaciente;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,13 +13,17 @@ public class Paciente {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nomme;
+    private String nome;
     private String email;
     private String Telefone;
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
 
-    public Paciente(PacienteDTO pacienteDTO) {
+    public Paciente(DadosCadastroPaciente dadosCadastroPaciente) {
+
+        this.nome = dadosCadastroPaciente.nome();
+        this.email = dadosCadastroPaciente.email();
+        this.Telefone = dadosCadastroPaciente.telefone();
     }
 
     public Long getId() {
@@ -30,11 +35,11 @@ public class Paciente {
     }
 
     public String getNomme() {
-        return nomme;
+        return nome;
     }
 
     public void setNomme(String nomme) {
-        this.nomme = nomme;
+        this.nome = nomme;
     }
 
     public String getEmail() {

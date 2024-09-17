@@ -1,10 +1,10 @@
 package com.GabrielOkumura.agendamento_consultas.controller;
 
 import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroPaciente;
-import com.GabrielOkumura.agendamento_consultas.service.PacienteService;
+import com.GabrielOkumura.agendamento_consultas.model.Paciente;
+import com.GabrielOkumura.agendamento_consultas.repository.PacienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class PacienteController {
 
     @Autowired
-    private PacienteService pacienteService;
+    private PacienteRepository repository;
 
     @PostMapping
-    public void createPaciente(@RequestBody DadosCadastroPaciente DadosCadastroPaciente) {
-        System.out.println(DadosCadastroPaciente);
+    public void cadastrar(@RequestBody @Valid DadosCadastroPaciente dadosCadastroPaciente) {
+        repository.save(new Paciente(dadosCadastroPaciente));
     }
 
     // Outros endpoints...
