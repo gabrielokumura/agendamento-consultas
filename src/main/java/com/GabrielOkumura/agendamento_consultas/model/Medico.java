@@ -1,5 +1,6 @@
 package com.GabrielOkumura.agendamento_consultas.model;
 
+import com.GabrielOkumura.agendamento_consultas.dto.DadosAtualizaMedico;
 import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico.DadosCadastroMedico;
 import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico.Especialidade;
 import jakarta.persistence.*;
@@ -18,13 +19,34 @@ public class Medico {
     private Especialidade especialidade;
     private String email;
 
+    private Boolean ativo;
+
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
+    public Medico() {
+    }
 
     public Medico(DadosCadastroMedico dadosCadastroMedico) {
+        this.ativo = true;
         this.nome = dadosCadastroMedico.nome();
         this.especialidade = dadosCadastroMedico.especialidade();
         this.email = dadosCadastroMedico.email();
+    }
+
+    public void atualizarInformacoes(DadosAtualizaMedico dadosAtualizaMedico) {
+        if(dadosAtualizaMedico.nome() != null){
+            this.nome = dadosAtualizaMedico.nome();
+        }
+        if(dadosAtualizaMedico.especialidade() != null ){
+            this.especialidade = dadosAtualizaMedico.especialidade();
+        }
+        if(dadosAtualizaMedico.email() != null ){
+            this.email = dadosAtualizaMedico.email();
+        }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 
     public Long getId() {
@@ -43,7 +65,7 @@ public class Medico {
         this.nome = nome;
     }
 
-    public Enum getEspecialidade() {
+    public Especialidade getEspecialidade() {
         return especialidade;
     }
 
@@ -66,4 +88,7 @@ public class Medico {
     public void setConsultas(List<Consulta> consultas) {
         this.consultas = consultas;
     }
+
+
+
 }

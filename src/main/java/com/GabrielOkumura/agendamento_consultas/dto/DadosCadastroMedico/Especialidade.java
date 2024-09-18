@@ -3,7 +3,7 @@ package com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico;
 public enum Especialidade {
 
     CARDIOLOGIA,
-    ENDORCRINOLOGIA,
+    ENDOCRINOLOGIA,
     GASTROENTEROLOGIA,
     HEMATOLOGIA,
     INFECTOLOGIA,
