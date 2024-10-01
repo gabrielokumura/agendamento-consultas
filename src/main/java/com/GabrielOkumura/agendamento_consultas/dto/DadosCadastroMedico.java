@@ -1,4 +1,4 @@
-package com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico;
+package com.GabrielOkumura.agendamento_consultas.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

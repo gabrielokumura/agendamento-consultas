@@ -1,14 +1,16 @@
 package com.GabrielOkumura.agendamento_consultas.controller;
 
-import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroPaciente;
-import com.GabrielOkumura.agendamento_consultas.dto.DadosListagemMedico;
-import com.GabrielOkumura.agendamento_consultas.dto.DadosListagemPaciente;
+import com.GabrielOkumura.agendamento_consultas.dto.*;
 import com.GabrielOkumura.agendamento_consultas.model.Paciente;
 import com.GabrielOkumura.agendamento_consultas.repository.PacienteRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,28 @@ public class PacienteController {
 
     @GetMapping
     public Page<DadosListagemPaciente> listar(Pageable paginacao){
-        return repository.findAll(paginacao).map(DadosListagemPaciente :: new);
+        return repository.findByAtivoTrue(paginacao).map(DadosListagemPaciente :: new);
     }
 
-    // Outros endpoints...
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizPaciente dadosAtualizPaciente){
+        var paciente = repository.getReferenceById(dadosAtualizPaciente.id());
+        paciente.atualizar(dadosAtualizPaciente);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        try {
+            var paciente = repository.getReferenceById(id);
+            paciente.ativarDesativar();
+
+            return ResponseEntity.ok().build();
+        } catch (
+                EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente com o ID " + id + " não encontrado");
+        }
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico;
+package com.GabrielOkumura.agendamento_consultas.dto;
 
 public enum Especialidade {
 

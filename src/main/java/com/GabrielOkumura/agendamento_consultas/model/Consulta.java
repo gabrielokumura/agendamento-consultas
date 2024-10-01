@@ -1,5 +1,9 @@
 package com.GabrielOkumura.agendamento_consultas.model;
 
+import com.GabrielOkumura.agendamento_consultas.dto.DadosAtualizaAgendamento;
+import com.GabrielOkumura.agendamento_consultas.dto.DadosAtualizaConsulta;
+import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroConsulta;
+import com.GabrielOkumura.agendamento_consultas.dto.DadosListagemConsulta;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +20,8 @@ public class Consulta {
     private String descricao;
     private String status;
 
+    private Boolean ativo;
+
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
@@ -24,8 +30,37 @@ public class Consulta {
     @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
 
-    @OneToOne(mappedBy = "consulta", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne // Relacionamento com Agendamento
+    @JoinColumn(name = "agendamento_id", nullable = false)
     private Agendamento agendamento;
+
+    public Consulta(DadosCadastroConsulta dadosCadastroConsulta) {
+        this.ativo = true;
+        this.dataHoraInicio = dadosCadastroConsulta.dataHoraInicio();
+        this.dataHoraFim = dadosCadastroConsulta.dataHoraFim();
+        this.descricao = dadosCadastroConsulta.descricao();
+        this.status = dadosCadastroConsulta.status();
+    }
+
+    public void atualizar(DadosAtualizaConsulta dadosAtualizaConsulta) {
+        if(dadosAtualizaConsulta.dataHoraInicio() != null ){
+            this.dataHoraInicio = dadosAtualizaConsulta.dataHoraInicio();
+        }
+        if(dadosAtualizaConsulta.dataHoraFim() != null){
+            this.dataHoraFim = dadosAtualizaConsulta.dataHoraFim();
+        }
+        if(dadosAtualizaConsulta.descricao() != null){
+            this.descricao = dadosAtualizaConsulta.descricao();
+        }
+        if(dadosAtualizaConsulta.status() != null){
+            this.status = dadosAtualizaConsulta.status();
+        }
+    }
+
+    public void ativarDesativar() {
+        this.ativo =! this.ativo;
+
+    }
 
     public Long getId() {
         return id;

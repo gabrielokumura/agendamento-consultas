@@ -1,8 +1,8 @@
 package com.GabrielOkumura.agendamento_consultas.model;
 
 import com.GabrielOkumura.agendamento_consultas.dto.DadosAtualizaMedico;
-import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico.DadosCadastroMedico;
-import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico.Especialidade;
+import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroMedico;
+import com.GabrielOkumura.agendamento_consultas.dto.Especialidade;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -45,8 +45,13 @@ public class Medico {
         }
     }
 
-    public void excluir() {
-        this.ativo = false;
+    public void ativarDesativar() {
+        this.ativo =! this.ativo;
+
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
     }
 
     public Long getId() {

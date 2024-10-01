@@ -1,5 +1,6 @@
 package com.GabrielOkumura.agendamento_consultas.model;
 
+import com.GabrielOkumura.agendamento_consultas.dto.DadosAtualizPaciente;
 import com.GabrielOkumura.agendamento_consultas.dto.DadosCadastroPaciente;
 import jakarta.persistence.*;
 
@@ -15,15 +16,39 @@ public class Paciente {
 
     private String nome;
     private String email;
-    private String Telefone;
+    private String telefone;
+    private Boolean ativo;
+
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
 
+    public Paciente(){
+
+    }
+
     public Paciente(DadosCadastroPaciente dadosCadastroPaciente) {
 
+        this.ativo = true;
         this.nome = dadosCadastroPaciente.nome();
         this.email = dadosCadastroPaciente.email();
-        this.Telefone = dadosCadastroPaciente.telefone();
+        this.telefone = dadosCadastroPaciente.telefone();
+    }
+
+    public void ativarDesativar() {
+        this.ativo =! this.ativo;
+
+    }
+
+    public void atualizar(DadosAtualizPaciente dadosAtualizPaciente) {
+        if(dadosAtualizPaciente.nome() != null){
+            this.nome = dadosAtualizPaciente.nome();
+        }
+        if(dadosAtualizPaciente.email() != null){
+            this.email = dadosAtualizPaciente.email();
+        }
+        if(dadosAtualizPaciente.telefone() != null ){
+            this.telefone = dadosAtualizPaciente.telefone();
+        }
     }
 
     public Long getId() {
@@ -51,11 +76,11 @@ public class Paciente {
     }
 
     public String getTelefone() {
-        return Telefone;
+        return telefone;
     }
 
     public void setTelefone(String telefone) {
-        Telefone = telefone;
+        telefone = telefone;
     }
 
     public List<Consulta> getConsultas() {
@@ -65,4 +90,7 @@ public class Paciente {
     public void setConsultas(List<Consulta> consultas) {
         this.consultas = consultas;
     }
+
+
+
 }
